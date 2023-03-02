@@ -1,16 +1,34 @@
-import { Text } from "@chakra-ui/react";
-import { useQuery } from "react-query";
+import { Radio, RadioGroup, Stack } from '@chakra-ui/react';
+import { useState } from 'react';
+
+import { MarvelList } from '@/components/marvel';
+import { ECategory } from '@/modals';
 
 const Home = () => {
-  const getMarvel = async () => {
-    const res = await fetch("/api/marvel");
-    console.log({ res });
-    return res.json();
-  };
-  const { data } = useQuery("marvel", getMarvel);
+  const [category, setCategory] = useState<ECategory>(ECategory.SHOW);
 
-  console.log({ data });
-  return <Text>Edit /pages/index.tsx file</Text>;
+  const handleOnchangeCategory = (value: ECategory) => setCategory(value);
+
+  const renderMenu = () => (
+    <RadioGroup onChange={handleOnchangeCategory} value={category}>
+      <Stack direction="row">
+        {Object.values(ECategory).map((categoryKey) => (
+          <Radio key={categoryKey} value={categoryKey}>
+            {categoryKey}
+          </Radio>
+        ))}
+      </Stack>
+    </RadioGroup>
+  );
+
+  const renderList = () => <MarvelList category={category} />;
+
+  return (
+    <div className="container">
+      {renderMenu()}
+      {renderList()}
+    </div>
+  );
 };
 
 export default Home;
