@@ -1,5 +1,6 @@
-import { data, Movie, TvShow } from "@/data";
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from 'next';
+
+import { data, Movie, TvShow } from '@/data';
 
 export default function handler(
   req: NextApiRequest,

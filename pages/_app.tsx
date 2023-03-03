@@ -1,11 +1,16 @@
-import { ChakraProvider, Stack } from "@chakra-ui/react";
-import type { AppProps } from "next/app";
-import Head from "next/head";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { ChakraProvider, Stack } from '@chakra-ui/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Head from 'next/head';
+
+import { EmptyLayout } from '@/components/layout';
+import { AppPropsWithLayout } from '@/modals';
+import '@/styles/globals.css';
 
 const queryClient = new QueryClient();
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
+  const Layout = Component.Layout ?? EmptyLayout;
+
   return (
     <>
       <Head>
@@ -14,7 +19,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <ChakraProvider>
           <Stack h="100vh">
-            <Component {...pageProps} />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
           </Stack>
         </ChakraProvider>
       </QueryClientProvider>
